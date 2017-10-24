@@ -4,9 +4,10 @@
  */
 
 import React from 'react'
+import deepmerge from 'deepmerge'
 
 const interpolateParams = (text, params) => {
-  if (!params) {
+  if (!params || typeof text === 'object') {
     return text;
   }
 
@@ -67,6 +68,9 @@ export default (translations, lang, fallbackLang) => {
         }
       }
       return interpolateParams(textKey, params);
+    }
+    if (typeof message === 'object' && fallbackLangMessages) {
+      message = deepmerge(fallbackLangMessages[textKey], message);
     }
     return interpolateParams(message, params);
   }
