@@ -32,11 +32,10 @@ const interpolateParams = (text, params) => {
 }
 
 const getLangMessages = (translations, lang) => {
-  let langMessages = translations[lang];
+  let langMessages = translations[lang] || {};
 
-  // Fall back lang
-  if (langMessages === undefined && lang.indexOf('-') > -1) {
-    langMessages = translations[lang.split('-')[0]]
+  if (lang.indexOf('-') > -1) {
+    langMessages = deepmerge(translations[lang.split('-')[0]], langMessages);
   }
 
   return langMessages;
